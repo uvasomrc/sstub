@@ -1,13 +1,19 @@
 #!/bin/bash
 
 # defaults for the settings
+jname=$(date +%s)
 maxtime="12:00:00"
+queue="standard"
+mem="1GB"
+nnodes="1"
+taskspercpu="1"
 
 # function to write the script
 write_script()
 {
 touch $jname.slurm
 
+# logic for whether or not modules are set
 if [ -z "$modules" ]
 then
 	module_load=""
@@ -38,6 +44,7 @@ echo "created $jname.slurm in $dir"
 echo "================================"
 }
 
+# interview function for interactive evaluation
 interview()
 {
 
@@ -52,6 +59,13 @@ read queue
 
 echo "How many nodes do you need?"
 read nnodes
+
+echo "How many tasks per core (CPU) do you need to run?
+If you aren't running a parallel program use 1."
+read taskspercpu
+
+echo "How much memory (in GB) does your run need?"
+read mem
 
 echo "What is the max time you'd like to allow for the job run? 
 Enter in hh:mm:ss format."
@@ -74,11 +88,14 @@ do
                 A)      allocation=$OPTARG;;
                 p)      partition=$OPTARG;;
                 N)      nnodes=$OPTARG;;
+                c)      taskspercpu=$OPTARG;;
+                m)      mem=$OPTARG;;
                 t)      maxtime=$OPTARG;;
                 z)      modules=$OPTARG;;
         esac
 done
 
+# logic for whether or not the program is run interactively
 if [ -z "$interactive" ] 
 then
 	write_script
