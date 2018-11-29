@@ -19,6 +19,7 @@ usage() {
     echo "  -m      amount of memory per node (GB)"
     echo "  -t      maximum run time for the job in hh::mm::ss format"
     echo "  -z      modules to be used"
+    echo "  -w      write file without opening in vim editor"
     echo "  -h      display help"
     exit 1
 }
@@ -58,6 +59,14 @@ echo "================================"
 echo "created $jname.slurm in $dir"
 echo "================================"
 
+# check to see if script should be opened in editor
+# dne = 'do not edit' option
+if [ -z "$dne" ]
+then
+	vim $jname.slurm
+fi
+
+
 }
 
 # interview function for interactive evaluation
@@ -96,7 +105,7 @@ write_script
 }
 
 # Accept options 
-while getopts “ij:A:P:N:m:t:z:h” OPTION
+while getopts “ij:A:P:N:m:t:z:w:h” OPTION
 do
         case $OPTION in 
                 i)      interactive=1;;
@@ -108,6 +117,7 @@ do
                 m)      mem=$OPTARG;;
                 t)      maxtime=$OPTARG;;
                 z)      modules=$OPTARG;;
+                w)      dne=1;;
                 h)      usage;;
                 
                 \?) valid=0 usage;;
