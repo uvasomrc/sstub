@@ -8,6 +8,21 @@ mem="1GB"
 nnodes="1"
 taskspercpu="1"
 
+# usage
+usage() {
+    echo "usage: sstub"
+    echo "  -j      job name to be prepended"
+    echo "  -A      allocation for service unit recovery"
+    echo "  -p      partition (queue) for the job"
+    echo "  -N      number of nodes for job"
+    echo "  -c      number of cores per CPU"
+    echo "  -m      amount of memory per node (GB)"
+    echo "  -t      maximum run time for the job in hh::mm::ss format"
+    echo "  -z      modules to be used"
+    echo "  -h      display help"
+    exit 1
+}
+
 # function to write the script
 write_script()
 {
@@ -42,6 +57,7 @@ dir="$(pwd)"
 echo "================================"
 echo "created $jname.slurm in $dir"
 echo "================================"
+
 }
 
 # interview function for interactive evaluation
@@ -72,7 +88,7 @@ Enter in hh:mm:ss format."
 read maxtime
 
 echo "Would you like to load any modules? 
-If so, enter their names separated by one space."
+If so, enter the module name(s) separated by one space."
 read modules
 
 write_script
@@ -80,7 +96,7 @@ write_script
 }
 
 # Accept options 
-while getopts “ij:A:P:N:m:t:z:” OPTION
+while getopts “ij:A:P:N:m:t:z:h” OPTION
 do
         case $OPTION in 
                 i)      interactive=1;;
@@ -92,13 +108,20 @@ do
                 m)      mem=$OPTARG;;
                 t)      maxtime=$OPTARG;;
                 z)      modules=$OPTARG;;
+                h)      usage;;
+                
+                \?) valid=0 usage;;
         esac
 done
 
 # logic for whether or not the program is run interactively
-if [ -z "$interactive" ] 
+
+if [ $# -eq 0 ]
+then
+	usage
+elif [ -z "$interactive" ] 
 then
 	write_script
 else
-    interview
+	interview
 fi
