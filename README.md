@@ -10,8 +10,16 @@
 
 ## Installation
 
+The `sstub.sh` script is available to download from this repository. Once cloned, ensure  that the script is executable (`chmod +x sstub.sh`) and move to an appropriate `bin` in order to call the program directly by name.
+
 ```
 git clone https://github.com/uvasomrc/sstub.git
+```
+
+Alternatively, users of the [University of Virginia high-performance computing system (Rivanna)](https://arcs.virginia.edu/rivanna) can install `sstub` by running the following command on the cluster:
+
+```
+bash <(curl -s https://raw.githubusercontent.com/uvasomrc/sstub/master/install.sh)
 ```
 
 --- 
