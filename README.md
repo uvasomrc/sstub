@@ -35,6 +35,7 @@ sstub -h
 ```
 usage: sstub
   -j      job name to be prepended
+  -i      enter job info in interactive interview mode
   -A      allocation for service unit recovery
   -p      partition (queue) for the job
   -N      number of nodes for job

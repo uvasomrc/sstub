@@ -12,6 +12,7 @@ taskspercpu="1"
 usage() {
     echo "usage: sstub"
     echo "  -j      job name to be prepended"
+    echo "  -i      enter job info in interactive interview mode"
     echo "  -A      allocation for service unit recovery"
     echo "  -p      partition (queue) for the job"
     echo "  -N      number of nodes for job"
@@ -105,7 +106,7 @@ write_script
 }
 
 # Accept options 
-while getopts “ij:A:P:N:m:t:z:w:h” OPTION
+while getopts “ij:A:P:N:m:t:z:w:h?” OPTION
 do
         case $OPTION in 
                 i)      interactive=1;;
@@ -119,8 +120,8 @@ do
                 z)      modules=$OPTARG;;
                 w)      dne=1;;
                 h)      usage;;
+                ?)      usage;;
                 
-                \?) valid=0 usage;;
         esac
 done
 
