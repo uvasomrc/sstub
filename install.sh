@@ -25,14 +25,22 @@ mkdir -p /home/$me/bin
 mv sstub-master/sstub.sh /home/$me/bin/sstub
 chmod +x /home/$me/bin/sstub
 
-# add home bin to user path
-echo "export PATH=$PATH:/home/$me/bin" >> ~/.bashrc
-source ~/.bashrc
+# add home bin to user path if not already there
+if grep -q "/home/$me/bin" ~/.bashrc
+then
+	:
+else
+	echo "export PATH=$PATH:/home/$me/bin" >> ~/.bashrc
+	source ~/.bashrc
+fi
 
 echo "cleaning up ..."
 
 # clean up
 rm -rf sstub-master
 rm sstub.zip
+
+# change back to original directory
+cd - > /dev/null 2>&1
 
 echo "done."
